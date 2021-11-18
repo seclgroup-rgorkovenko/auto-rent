@@ -1,0 +1,204 @@
+openapi: 3.0.1
+info:
+  title: Аренда авто
+  description: >-
+    Сервис аренды автомобилей на определённый период
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /:
+    get:
+      tags:
+        - Приветствие
+      summary: Приветствие
+      responses:
+        '200':
+          description: Rent Your Car!
+  /rent:
+    get:
+      tags:
+        - Аренда
+      summary: Получить список свободных авто
+      parameters:
+        - in: query
+          name: start
+          description: Текущая дата если не задано
+          schema:
+            type: string
+            format: date
+          required: false
+        - in: query
+          name: end
+          description: Текущая дата если не задано
+          schema:
+            type: string
+            format: date
+          required: false
+      responses:
+        '200':
+          description: Получает список свободных авто за период
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      description: id авто
+                      type: number
+                    platenum:
+                      description: Госномер
+                      type: string
+        '400':
+          description: >-
+            - Неверный формат даты
+            
+            - Дата начала аренды не может быть больше даты окончания
+    post:
+      tags:
+        - Аренда
+      summary: Аренда авто
+      requestBody:
+        description: Параметры аренды
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                carId:
+                  description: id авто
+                  type: number
+                startDate:
+                  description: Дата начала аренды
+                  type: string
+                  format: date
+                endDate:
+                  description: Дата окончания аренды
+                  type: string
+                  format: date
+      responses:
+        '200':
+          description: Получает объект с данными по аренде
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    car_id:
+                      description: id Авто
+                      type: number
+                    startdate: 
+                      type: string
+                      format: date-time
+                    enddate: 
+                      type: string
+                      format: date-time
+                    duration:
+                      type: number
+                    cost:
+                      type: number
+                    rent_id:
+                      type: string
+                      format: uuid
+        '400':
+          description: >-
+            - Продолжительность аренды не может превышать 30 дней
+            
+            - Дата начала аренды не может быть больше даты окончания
+
+            - Дата начала или окончания аренды не может выпадать на выходной
+
+            - Автомобиль уже в аренде, попробуйте другой автомобиль или другой период аренды
+
+            - Неверный формат даты
+  /reports/workload/{year}-{month}:
+    get:
+      tags:
+        - Отчёты
+      summary: Отчёты об аренде авто
+      parameters:
+        - in: path
+          name: year
+          description: Год формирования отчёта
+          required: true
+          schema:
+            type: number
+        - in: path
+          name: month
+          description: Месяц формирования
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Отчет о загруженности авто за месяц
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    car_id:
+                      description: id авто
+                      type: number
+                    platenum:
+                      description: Госномер
+                      type: string
+                    percent_rent:
+                      description: Процент загруженности за месяц
+                      type: number
+                    count_days:
+                      description: Количество занятых дней в месяце
+                      type: number
+  /reports/workload/{year}-{month}/{id}:
+    get:
+      tags:
+        - Отчёты
+      summary: Отчёты об аренде конкретного авто по id
+      parameters:
+        - in: path
+          name: year
+          description: Год формирования отчёта
+          required: true
+          schema:
+            type: number
+        - in: path
+          name: month
+          description: Месяц формирования
+          required: true
+          schema:
+            type: number
+        - in: path
+          name: id
+          description: id авто
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Отчет о загруженности авто по его id за месяц
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    car_id:
+                      description: id авто
+                      type: number
+                    platenum:
+                      description: Госномер
+                      type: string
+                    percent_rent:
+                      description: Процент загруженности за месяц
+                      type: number
+                    count_days:
+                      description: Количество занятых дней в месяце
+                      type: number
+          

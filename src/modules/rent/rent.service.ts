@@ -46,7 +46,7 @@ export class RentService {
     const startTimestamp = startDate.getTime();
     const endTimestamp = endDate.getTime();
 
-    const dateRange = startTimestamp - endTimestamp;
+    const dateRange = endTimestamp - startTimestamp;
     const checkRange = dateRange <= maxRange;
 
     if (isNaN(startTimestamp) || isNaN(endTimestamp))

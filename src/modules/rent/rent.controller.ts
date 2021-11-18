@@ -33,7 +33,6 @@ export class RentController {
       ].includes(e);
 
       if (handledExceptions) {
-        console.log(e);
         throw new HttpException(e, HttpStatus.BAD_REQUEST)
       } else {
         throw new HttpException(SMTH_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
