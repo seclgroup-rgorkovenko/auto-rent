@@ -1,4 +1,4 @@
-import { Body, Controller, ExecutionContext, Get, HttpException, HttpStatus, Post, Res } from '@nestjs/common';
+import { Body, Controller, ExecutionContext, Get, HttpException, HttpStatus, Post, Query, Res } from '@nestjs/common';
 import { RentService } from './rent.service';
 import { CarSchema } from '../database/store/schemas/car.schema';
 import { RentCreate } from '../database/store/contracts/rent.create';
@@ -19,9 +19,26 @@ export class RentController {
     private readonly rentService: RentService
   ) { }
 
-  @Get('free')
-  freeCars (): Promise<CarSchema[]> {
-    return this.rentService.freeCars();
+  @Get()
+  async freeCars (
+    @Query('start') startDate: Date = new Date(),
+    @Query('end') endDate: Date = new Date()
+  ): Promise<CarSchema[]> {
+    try {
+      return await this.rentService.freeCars(startDate, endDate);
+    } catch (e) {
+      const handledExceptions = [
+        RENT_STARTDATE_GREATER_ENDDATE,
+        RENT_WRONG_DATEFORMAT
+      ].includes(e);
+
+      if (handledExceptions) {
+        console.log(e);
+        throw new HttpException(e, HttpStatus.BAD_REQUEST)
+      } else {
+        throw new HttpException(SMTH_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }
   }
 
   @Post()

@@ -27,8 +27,18 @@ export class RentService {
     this.carsModel = carsModel;
     this.rentModel = rentModel;
   }
-  async freeCars (): Promise<CarSchema[]> {
-    return await this.carsModel.getFreeCars();
+  async freeCars (
+    startDate: Date,
+    endDate: Date
+  ): Promise<CarSchema[]> {
+    startDate = new Date(startDate);
+    endDate = new Date(endDate);
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime()))
+      throw RENT_WRONG_DATEFORMAT;
+    if (startDate.getTime() > endDate.getTime())
+      throw RENT_STARTDATE_GREATER_ENDDATE;
+
+    return await this.carsModel.getFreeCars(startDate, endDate);
   }
   private async rentAvailable(data: RentCreate): Promise<void> {
     const maxRange = RENT_MAX_DAYS * (24 * 3600 * 1000);
