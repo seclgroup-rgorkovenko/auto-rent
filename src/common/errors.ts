@@ -1,1 +1,1 @@
-export const SMTH_WENT_WRONG = 'Что-то пошло не так';
+export const UNHANDLED_ERROR  = 'Внутренняя ошибка сервиса';

@@ -18,7 +18,7 @@ import {
   RENT_CAR_LOCKED,
   RENT_WRONG_DATEFORMAT,
 } from './constants/errors';
-import { SMTH_WENT_WRONG } from '../../common/errors';
+import { UNHANDLED_ERROR } from '../../common/errors';
 
 @Controller('rent')
 export class RentController {
@@ -41,7 +41,7 @@ export class RentController {
         throw new HttpException(e, HttpStatus.BAD_REQUEST);
       } else {
         throw new HttpException(
-          SMTH_WENT_WRONG,
+          UNHANDLED_ERROR,
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
       }
@@ -65,7 +65,7 @@ export class RentController {
         throw new HttpException(e, HttpStatus.BAD_REQUEST);
       } else {
         throw new HttpException(
-          SMTH_WENT_WRONG,
+          UNHANDLED_ERROR,
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
       }
