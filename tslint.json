@@ -1,0 +1,69 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint-config-airbnb-base"
+  ],
+  "jsRules": {
+    "no-unused-expression": true,
+    "promise/always-return": "error",
+    "promise/no-return-wrap": "error",
+    "promise/param-names": "error",
+    "promise/catch-or-return": "error",
+    "promise/no-native": "off",
+    "promise/no-nesting": "warn",
+    "promise/no-promise-in-callback": "warn",
+    "promise/no-callback-in-promise": "warn",
+    "promise/avoid-new": "warn",
+    "promise/no-new-statics": "error",
+    "promise/no-return-in-finally": "warn",
+    "promise/valid-params": "warn",
+    "detect-unsafe-regex": "error",
+    "detect-eval-with-expression": "error",
+    "detect-no-csrf-before-method-override": "error",
+    "detect-non-literal-fs-filename": "error",
+    "detect-non-literal-regexp": "error",
+    "detect-non-literal-require": "error",
+    "detect-possible-timing-attacks": "error",
+    "detect-pseudoRandomBytes": "error",
+    "detect-buffer-noassert": "error",
+    "require-await": "error"
+  },
+  "rules": {
+    "completed-docs": [
+      true,
+      "classes",
+      "enums",
+      "enum-members",
+      "functions",
+      "interfaces",
+      "methods",
+      "namespaces",
+      "types"
+    ],
+    "max-line-length": [true, 100],
+    "ter-max-len": [true, 100],
+    "trailing-comma": false,
+    "quotemark": [true, "single"],
+    "object-literal-key-quotes": [true, "consistent"],
+    "arrow-parens": [true],
+    "ter-arrow-parens": [
+      true,
+      "always",
+      { "requireForBlockBody": true }
+    ],
+    "no-empty": [true, "allow-empty-functions"],
+    "no-bitwise": true,
+    "no-console": false,
+    "use-default-type-parameter": true,
+    "no-unnecessary-initializer": true,
+    "no-unnecessary-qualifier": true,
+    "space-before-function-paren": true,
+    "no-magic-numbers": false,
+    "no-return-await": true,
+    "array-type": [true, "array-simple"]
+  },
+  "rulesDirectory": [],
+  "linterOptions": {
+    "exclude": ["build", "node_modules"]
+  }
+}

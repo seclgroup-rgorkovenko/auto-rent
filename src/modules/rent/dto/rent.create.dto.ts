@@ -1,6 +1,5 @@
-import { RentCreate } from "src/modules/database/store/contracts/rent.create";
-
-export type RentCreateDto = Omit<RentCreate, "startDate" | "endDate" | "cost"> & {
+export type RentCreateDto = {
+  carId: number;
   startDate: string;
   endDate: string;
-}
+};

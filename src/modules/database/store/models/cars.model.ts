@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
-import { PgConnectionService } from "../../connection/connection.service";
-import { CarSchema } from "../schemas/car.schema";
-import { pgDate } from "../helpers/date.formats";
+import { Injectable } from '@nestjs/common';
+import { PgConnectionService } from '../../connection/connection.service';
+import { CarSchema } from '../schemas/car.schema';
+import { pgDate } from '../helpers/date.formats';
 
 @Injectable()
 export class CarsModel {
@@ -11,11 +11,11 @@ export class CarsModel {
   }
 
   async getFreeCars(
-    startDate: Date = (new Date()),
-    endDate: Date = (new Date())
+    startDate: Date = new Date(),
+    endDate: Date = new Date(),
   ): Promise<CarSchema[]> {
     const { client } = this.connection;
-  
+
     const result = await client.query(`
       SELECT
         "Cars".id,
@@ -36,7 +36,7 @@ export class CarsModel {
       WHERE
         CASE WHEN "FreeCar".locked IS null THEN false ELSE true END = false
     `);
-  
+
     return result.rows;
   }
 }

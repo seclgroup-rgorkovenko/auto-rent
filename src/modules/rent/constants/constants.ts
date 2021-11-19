@@ -4,5 +4,5 @@ export const RENT_COST_DISCOUNTS = [
   { start: 1, end: 4, discount: 0 },
   { start: 5, end: 9, discount: 0.05 },
   { start: 10, end: 17, discount: 0.1 },
-  { start: 18, end: 30, discount: 0.15 }
-]
+  { start: 18, end: 30, discount: 0.15 },
+];

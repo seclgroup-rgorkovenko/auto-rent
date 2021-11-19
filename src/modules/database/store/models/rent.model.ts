@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PgConnectionService } from "../../connection/connection.service";
+import { PgConnectionService } from '../../connection/connection.service';
 import { RentCreate } from '../contracts/rent.create';
 import { RentSchema } from '../schemas/rent.schema';
 import { pgDate } from '../helpers/date.formats';
@@ -7,11 +7,11 @@ import { pgDate } from '../helpers/date.formats';
 @Injectable()
 export class RentModel {
   private connection: PgConnectionService;
-  constructor (connection: PgConnectionService) {
+  constructor(connection: PgConnectionService) {
     this.connection = connection;
   }
 
-  async rentCar (rentData: RentCreate): Promise<RentSchema[]> {
+  async rentCar(rentData: RentCreate): Promise<RentSchema[]> {
     const dateDiff = rentData.endDate.getTime() - rentData.startDate.getTime();
     const duration = Math.round(dateDiff / (24 * 3600 * 1000)) + 1;
 

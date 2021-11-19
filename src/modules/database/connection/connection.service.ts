@@ -1,5 +1,5 @@
-import { Injectable, OnModuleDestroy } from "@nestjs/common";
-import { Client } from "pg";
+import { Injectable, OnModuleDestroy } from '@nestjs/common';
+import { Client } from 'pg';
 
 @Injectable()
 export class PgConnectionService implements OnModuleDestroy {
@@ -9,7 +9,7 @@ export class PgConnectionService implements OnModuleDestroy {
       host: process.env.PGHOST,
       user: process.env.PGUSER,
       database: process.env.PGDATABASE,
-      password: ""+process.env.PGPASSWORD,
+      password: '' + process.env.PGPASSWORD,
       port: parseInt(process.env.PGPORT),
     });
 
@@ -17,8 +17,8 @@ export class PgConnectionService implements OnModuleDestroy {
   }
 
   onModuleDestroy() {
-    this.client.end().catch(e=>{
-      console.error(e)
+    this.client.end().catch((e) => {
+      console.error(e);
     });
   }
 }

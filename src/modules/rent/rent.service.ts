@@ -8,29 +8,23 @@ import {
   RENT_HOLIDAYS,
   RENT_STARTDATE_GREATER_ENDDATE,
   RENT_WRONG_RANGE,
-  RENT_WRONG_DATEFORMAT
+  RENT_WRONG_DATEFORMAT,
 } from './constants/errors';
 import {
   RENT_MAX_DAYS,
   RENT_BASE_COST,
-  RENT_COST_DISCOUNTS
+  RENT_COST_DISCOUNTS,
 } from './constants/constants';
 
 @Injectable()
 export class RentService {
   private rentModel: RentModel;
   private carsModel: CarsModel;
-  constructor (
-    rentModel: RentModel,
-    carsModel: CarsModel
-  ) {
+  constructor(rentModel: RentModel, carsModel: CarsModel) {
     this.carsModel = carsModel;
     this.rentModel = rentModel;
   }
-  async freeCars (
-    startDate: Date,
-    endDate: Date
-  ): Promise<CarSchema[]> {
+  async freeCars(startDate: Date, endDate: Date): Promise<CarSchema[]> {
     startDate = new Date(startDate);
     endDate = new Date(endDate);
     if (isNaN(startDate.getTime()) || isNaN(endDate.getTime()))
@@ -51,18 +45,17 @@ export class RentService {
 
     if (isNaN(startTimestamp) || isNaN(endTimestamp))
       throw RENT_WRONG_DATEFORMAT;
-    if (startTimestamp > endTimestamp)
-      throw RENT_STARTDATE_GREATER_ENDDATE
-    if (!checkRange)
-      throw RENT_WRONG_RANGE;
-    if ([0, 6].includes(startDate.getDay())
-      || [0, 6].includes(endDate.getDay()))
+    if (startTimestamp > endTimestamp) throw RENT_STARTDATE_GREATER_ENDDATE;
+    if (!checkRange) throw RENT_WRONG_RANGE;
+    if (
+      [0, 6].includes(startDate.getDay()) ||
+      [0, 6].includes(endDate.getDay())
+    )
       throw RENT_HOLIDAYS;
 
     const freeCars = await this.carsModel.getFreeCars(startDate, endDate);
     const freeCar = freeCars.find((car: CarSchema) => car.id === carId);
-    if (!freeCar)
-      throw RENT_CAR_LOCKED;
+    if (!freeCar) throw RENT_CAR_LOCKED;
   }
   private calculateRentCost(data: RentCreate): void {
     const dateDiff = data.endDate.getTime() - data.startDate.getTime();
@@ -71,17 +64,17 @@ export class RentService {
     const costs = RENT_COST_DISCOUNTS.reduce((acc, value) => {
       for (let i = value.start; i <= value.end; i++) {
         if (i <= duration)
-        acc.push(RENT_BASE_COST - RENT_BASE_COST * value.discount);
+          acc.push(RENT_BASE_COST - RENT_BASE_COST * value.discount);
       }
 
       return acc;
-    } ,[]);
+    }, []);
 
     data.cost = costs.reduce((acc, cost) => {
-      return acc += cost;
+      return (acc += cost);
     }, 0);
   }
-  async rent (data: RentCreate): Promise<RentSchema[]> {
+  async rent(data: RentCreate): Promise<RentSchema[]> {
     await this.rentAvailable(data);
     this.calculateRentCost(data);
     return await this.rentModel.rentCar(data);

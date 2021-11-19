@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
-import { PgConnectionService } from "../../connection/connection.service";
-import { pgDate } from "../../store/helpers/date.formats";
-import { CarUsedResponseSchema } from "../schemas/cars.used.response.schema";
+import { Injectable } from '@nestjs/common';
+import { PgConnectionService } from '../../connection/connection.service';
+import { pgDate } from '../../store/helpers/date.formats';
+import { CarUsedResponseSchema } from '../schemas/cars.used.response.schema';
 
 @Injectable()
 export class CarsUsedReport {
@@ -16,13 +16,13 @@ export class CarsUsedReport {
     carId?: number,
   ): Promise<CarUsedResponseSchema[]> {
     const { client } = this.connection;
-    const date = new Date((new Date()).setFullYear(year, month - 1, 1));
+    const date = new Date(new Date().setFullYear(year, month - 1, 1));
 
     let carFilter = '';
     if (!isNaN(carId)) {
       carFilter = `
         where car_id_fk = ${carId}
-      `
+      `;
     }
     const query = await client.query(`
       create temp table "t_ranges" on commit drop as
@@ -52,7 +52,9 @@ export class CarsUsedReport {
       from "UsersRent",
       (SELECT
         (date_trunc('month', date('${pgDate(date)}')))::timestamp as start,
-        (date_trunc('month', date('${pgDate(date)}')) + '1 mon'::interval)::timestamp as end
+        (date_trunc('month', date('${pgDate(
+          date,
+        )}')) + '1 mon'::interval)::timestamp as end
       ) as monthrange
       where 
         tsrange(startdate::timestamp, (enddate + interval '1 day')::timestamp)

@@ -3,4 +3,4 @@ export type RentCreate = {
   startDate: Date;
   endDate: Date;
   cost: number;
-}
+};

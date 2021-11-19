@@ -5,13 +5,7 @@ import * as Models from './models';
 
 @Module({
   imports: [PgConnectionModule],
-  providers: [
-    Models.CarsModel,
-    Models.RentModel
-  ],
-  exports: [
-    Models.CarsModel,
-    Models.RentModel
-  ]
+  providers: [Models.CarsModel, Models.RentModel],
+  exports: [Models.CarsModel, Models.RentModel],
 })
-export class StoreModule { }
+export class StoreModule {}

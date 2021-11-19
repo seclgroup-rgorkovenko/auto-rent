@@ -1,4 +1,4 @@
 export type CarSchema = {
   id: number;
-  platenum: string
-}
+  platenum: string;
+};

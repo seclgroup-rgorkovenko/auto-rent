@@ -5,6 +5,6 @@ import { CarsUsedReport } from './reports/cars.used.report';
 @Module({
   imports: [PgConnectionModule],
   providers: [CarsUsedReport],
-  exports: [CarsUsedReport]
+  exports: [CarsUsedReport],
 })
-export class ReportsViewModule { }
+export class ReportsViewModule {}
